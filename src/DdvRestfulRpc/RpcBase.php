@@ -35,6 +35,9 @@ class RpcBase {
    * @return [array|bool]     [FALSE|array]
    */
   public function sendDataToRpc($path, $gwcid=array(), $body, array $headers=array(), $isSync=FALSE, $id=NULL){
+    if(empty($gwcid)){
+      throw new DdvRpcError('Must input push gwcid', 'MUST_INPUT_PUSH_GWCID');
+    }
     $path = empty($path) ? '/' : (string)$path;
     $headers['id'] = (string)(empty($headers['id']) ? ($this->isRpcCallId($id) ? $id : $this->getRpcCallId()) : $headers['id']);
     $headers['sync'] = empty($headers['sync']) ? ($isSync ? 'true' : 'false') : $headers['sync'];
